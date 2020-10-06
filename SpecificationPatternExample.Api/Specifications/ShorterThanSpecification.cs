@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using SpecificationPatternExample.Data.Models;
 using SpecificationPatternExample.Specification.ExpressionSpecificationSection.Specifications;
@@ -10,7 +11,7 @@ namespace SpecificationPatternExample.Api.Specifications
         {
         }
     }
-    
+
     public static class ShorterThanSpecificationExtension
     {
         public static bool ShorterThan(this UserModel userModel, int height)
@@ -18,6 +19,11 @@ namespace SpecificationPatternExample.Api.Specifications
             var specification = new ShorterThanSpecification(height);
             bool result = specification.IsSatisfied(userModel);
             return result;
+        }
+
+        public static IEnumerable<UserModel> ShorterThan(this IEnumerable<UserModel> userModels, int height)
+        {
+            return userModels.Where(x => x.ShorterThan(height));
         }
 
         public static IQueryable<UserModel> ShorterThan(this IQueryable<UserModel> userModels, int height)
