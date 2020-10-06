@@ -51,9 +51,10 @@ namespace SpecificationPatternExample
 
             services.AddDbContext<DataContext>((provider, builder) =>
                                                {
-                                                   builder.UseLoggerFactory(provider.GetService<ILoggerFactory>())
+                                                   var loggerFactory = provider.GetService<ILoggerFactory>();
+                                                   builder.UseLoggerFactory(loggerFactory)
                                                           .EnableSensitiveDataLogging()
-                                                          .UseSqlServer(connectionString);;
+                                                          .UseSqlServer(connectionString);
                                                });
             services.AddScoped<IUserRepository, UserRepository>();
         }

@@ -50,7 +50,9 @@ namespace SpecificationPatternExample.Api.Controllers
                 userModels = userModels.OlderThan(olderThan.Value);
             }
 
-            List<UserModel> users = await userModels.ToListAsync();
+            List<UserModel> users = await userModels
+                                         .TagWith("Fetching User via Extension")
+                                         .ToListAsync();
 
             if (!users.Any())
             {
