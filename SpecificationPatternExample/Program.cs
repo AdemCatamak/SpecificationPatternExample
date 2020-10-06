@@ -84,7 +84,6 @@ namespace SpecificationPatternExample
                                                                                    .ConfigureAppConfiguration((hostingContext, config) => { AppConfigs.PrepareConfig(config); })
                                                                                    .ConfigureLogging((host, logging) =>
                                                                                                      {
-                                                                                                         logging.SetMinimumLevel(LogLevel.Information);
                                                                                                          logging.ClearProviders();
                                                                                                          logging.AddConsole();
                                                                                                      })

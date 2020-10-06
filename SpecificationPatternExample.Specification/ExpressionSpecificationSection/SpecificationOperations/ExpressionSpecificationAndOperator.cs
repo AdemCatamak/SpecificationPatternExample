@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using SpecificationPatternExample.Specification.ExpressionSpecificationSection.Specifications;
 
@@ -6,13 +7,26 @@ namespace SpecificationPatternExample.Specification.ExpressionSpecificationSecti
 {
     internal class ExpressionSpecificationAndOperator : IExpressionSpecificationOperator
     {
+        // https://stackoverflow.com/questions/457316/combining-two-expressions-expressionfunct-bool
         public ExpressionSpecification<TModel> Combine<TModel>(ExpressionSpecification<TModel> left, ExpressionSpecification<TModel> right)
         {
-            BinaryExpression body = Expression.AndAlso(left.Expression.Body, right.Expression.Body);
-            Expression<Func<TModel, bool>> lambda = Expression.Lambda<Func<TModel, bool>>(body, left.Expression.Parameters[0]);
-            var dynamicExpressionSpecification = new DynamicExpressionSpecification<TModel>(Expression.Lambda<Func<TModel, bool>>(lambda));
+            Expression<Func<TModel, bool>> resultExpression;
+            ParameterExpression param = left.Expression.Parameters.First();
+            if (ReferenceEquals(param, right.Expression.Parameters.First()))
+            {
+                resultExpression = Expression.Lambda<Func<TModel, bool>>(
+                                                                         Expression.AndAlso(left.Expression.Body, right.Expression.Body), param);
+            }
+            else
+            {
+                resultExpression = Expression.Lambda<Func<TModel, bool>>(
+                                                                         Expression.AndAlso(
+                                                                                            left.Expression.Body,
+                                                                                            Expression.Invoke(right.Expression, param)), param);
+            }
 
-            return dynamicExpressionSpecification;
+            var combinedSpecification = new DynamicExpressionSpecification<TModel>(resultExpression);
+            return combinedSpecification;
         }
     }
 

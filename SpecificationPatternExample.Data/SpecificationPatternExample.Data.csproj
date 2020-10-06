@@ -14,4 +14,8 @@
       <Folder Include="Migrations" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SpecificationPatternExample.Specification\SpecificationPatternExample.Specification.csproj" />
+    </ItemGroup>
+
 </Project>

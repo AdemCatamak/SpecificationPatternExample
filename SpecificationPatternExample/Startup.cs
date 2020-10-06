@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using SpecificationPatternExample.Api.Controllers;
 using SpecificationPatternExample.ConfigSection;
 using SpecificationPatternExample.Data;
+using SpecificationPatternExample.Data.Repositories;
 
 namespace SpecificationPatternExample
 {
@@ -49,14 +51,27 @@ namespace SpecificationPatternExample
 
             services.AddDbContext<DataContext>((provider, builder) =>
                                                {
-                                                   builder.UseSqlServer(connectionString);
                                                    builder.UseLoggerFactory(provider.GetService<ILoggerFactory>())
-                                                          .EnableSensitiveDataLogging();
+                                                          .EnableSensitiveDataLogging()
+                                                          .UseSqlServer(connectionString);;
                                                });
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.Use(async (httpContext, next) =>
+                    {
+                        try
+                        {
+                            await next.Invoke();
+                        }
+                        catch (Exception e)
+                        {
+                            var logger = httpContext.RequestServices.GetService<ILogger>();
+                            logger.LogError(e, "Unexpected Error");
+                        }
+                    });
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", ""); });
