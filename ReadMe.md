@@ -3,7 +3,7 @@
 
 This repo contains sample codes for the Medium article, which you can access via the https://medium.com/@ademcatamak/specification-design-pattern-c814649be0ef.
 
-The implementation of this design pattern is in the _SpecificationPatternExample.Specification_ project. This project has no dependency. You can free to copy this project and use it.
+The implementation of design pattern is in the _SpecificationPatternExample.Specification_ project that has no dependency. You can free to copy this project and use it.
 
 ## __RUN__
 
