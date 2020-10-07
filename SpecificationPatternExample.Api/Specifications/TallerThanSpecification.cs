@@ -7,28 +7,28 @@ namespace SpecificationPatternExample.Api.Specifications
 {
     public class TallerThanSpecification : ExpressionSpecification<UserModel>
     {
-        public TallerThanSpecification(int height) : base(u => u.Height > height)
+        public TallerThanSpecification(int threshold) : base(u => u.Height > threshold)
         {
         }
     }
 
     public static class TallerThanSpecificationExtension
     {
-        public static bool TallerThan(this UserModel userModel, int height)
+        public static bool TallerThan(this UserModel userModel, int threshold)
         {
-            var specification = new TallerThanSpecification(height);
+            var specification = new TallerThanSpecification(threshold);
             bool result = specification.IsSatisfied(userModel);
             return result;
         }
 
-        public static IEnumerable<UserModel> TallerThan(this IEnumerable<UserModel> userModels, int height)
+        public static IEnumerable<UserModel> TallerThan(this IEnumerable<UserModel> userModels, int threshold)
         {
-            return userModels.Where(x => x.TallerThan(height));
+            return userModels.Where(x => x.TallerThan(threshold));
         }
 
-        public static IQueryable<UserModel> TallerThan(this IQueryable<UserModel> userModels, int height)
+        public static IQueryable<UserModel> TallerThan(this IQueryable<UserModel> userModels, int threshold)
         {
-            var specification = new TallerThanSpecification(height);
+            var specification = new TallerThanSpecification(threshold);
             return userModels.Where(specification.Expression);
         }
     }

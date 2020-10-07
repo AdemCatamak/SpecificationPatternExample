@@ -24,9 +24,9 @@ namespace SpecificationPatternExample.Api.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet("query-extension/users")]
-        public async Task<IActionResult> GetUsersWithExtensions([FromQuery] int? shorterThan, [FromQuery] int? tallerThan,
-                                                                [FromQuery] int? olderThan, [FromQuery] int? youngerThan)
+        [HttpGet("users/fetch-with-queryable-extension")]
+        public async Task<IActionResult> FetchWithQueryableExtension([FromQuery] int? shorterThan, [FromQuery] int? tallerThan,
+                                                                     [FromQuery] int? olderThan, [FromQuery] int? youngerThan)
         {
             IQueryable<UserModel> userModels = _dataContext.UserModels.AsQueryable();
 
@@ -62,9 +62,9 @@ namespace SpecificationPatternExample.Api.Controllers
             return StatusCode((int) HttpStatusCode.OK, new {totalCount = users.Count, users});
         }
 
-        [HttpGet("query-via-repository/users")]
-        public IActionResult GetUsersWithRepository([FromQuery] int? shorterThan, [FromQuery] int? tallerThan,
-                                                    [FromQuery] int? olderThan, [FromQuery] int? youngerThan)
+        [HttpGet("users/fetch-with-repository")]
+        public IActionResult FetchWithRepository([FromQuery] int? shorterThan, [FromQuery] int? tallerThan,
+                                                 [FromQuery] int? olderThan, [FromQuery] int? youngerThan)
         {
             ExpressionSpecification<UserModel> specification = null;
 
@@ -91,6 +91,24 @@ namespace SpecificationPatternExample.Api.Controllers
 
                 specification = specification?.And(olderThanSpecification) ?? olderThanSpecification;
             }
+
+            List<UserModel> users = _userRepository.GetUsers(specification)
+                                                   .ToList();
+
+            if (!users.Any())
+            {
+                return StatusCode((int) HttpStatusCode.NotFound);
+            }
+
+            return StatusCode((int) HttpStatusCode.OK, new {totalCount = users.Count, users});
+        }
+
+        [HttpGet("users/in-age-range")]
+        public IActionResult InAgeRange([FromQuery] int olderThan, [FromQuery] int youngerThan)
+        {
+            ExpressionSpecification<UserModel> specification
+                = new YoungerThanSpecification(youngerThan)
+                   .And(new OlderThanSpecification(olderThan));
 
             List<UserModel> users = _userRepository.GetUsers(specification)
                                                    .ToList();
