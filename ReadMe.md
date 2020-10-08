@@ -1,7 +1,7 @@
 
 # Specification Design Pattern
 
-Medium üzerinde yayınlanmış bir yazıya ait örnek kodlar bu repository içerisinde yer almaktadır. Yazıya bu link aracılığı ile erişeiblirsiniz: 
+Medium üzerinde yayınlanmış bir yazıya ait örnek kodlar bu repository içerisinde yer almaktadır. Yazıya bu link aracılığı ile erişebilirsiniz: 
 https://medium.com/@ademcatamak/specification-tasarim-deseni-d142692a8e41
 
 This repo contains sample codes for the Medium article, which you can access via https://medium.com/@ademcatamak/specification-design-pattern-c814649be0ef.
