@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+
+  specification-pattern-example-app:
+    image: specification-pattern-example:latest
+    build:
+      context: ./
+      dockerfile: specification-pattern-example.Dockerfile
+    ports:
+      - 10000:80
+    depends_on:
+      - specification-pattern-example-sql-server
+    links:
+      - specification-pattern-example-sql-server
+
+  specification-pattern-example-sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Passw0rd"
+    expose:
+      - 1433
+    ports:
+      - 10001:1433
