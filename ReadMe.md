@@ -1,6 +1,9 @@
 
 # Specification Design Pattern
 
+Medium üzerinde yayınlanmış bir yazıya ait örnek kodlar bu repository içerisinde yer almaktadır. Yazıya bu link aracılığı ile erişeiblirsiniz: 
+https://medium.com/@ademcatamak/specification-tasarim-deseni-d142692a8e41
+
 This repo contains sample codes for the Medium article, which you can access via https://medium.com/@ademcatamak/specification-design-pattern-c814649be0ef.
 
 The implementation of design pattern is in the _SpecificationPatternExample.Specification_ project which has no dependencies. You are free to copy this project and use it.
