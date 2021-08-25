@@ -8,6 +8,8 @@ This repo contains sample codes for the Medium article, which you can access via
 
 The implementation of design pattern is in the _SpecificationPatternExample.Specification_ project which has no dependencies. You are free to copy this project and use it.
 
+__Note__: You can access the implementation of the design pattern via [NuGet](https://www.nuget.org/packages/Spectacular/) using the name [Spectacular](https://github.com/AdemCatamak/Spectacular).
+
 ## __RUN__
 
 When you run the program and send some GET requests, created sql queries can be seen via console screen. The easiest way of running the program is using `docker-compose up`. If you want to debug the code, you have two ways which are listed below.
